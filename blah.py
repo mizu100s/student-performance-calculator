@@ -2,61 +2,73 @@
 #student performance calculator
 #pm class
 
+
+
+#asks for student info
 print("================================")
 print("STUDENT PERFORMANCE ANALYZER")
 print("================================")
 name = input("what is the students name: ")
-grade = int(input("what is the students grade level: "))
+gradelevel = int(input("what is the students grade level: "))
 assignmentavg = float(input("what is the students assignment average: "))
 quizavg = float(input("what is the students quiz average: "))
 testavg = float(input("what is the students test average: "))
 attendance = float(input("what is the students attendance percentage: "))
 missing = int(input("how many missing assingments does the student have: "))
 
+#calculate overgrade
+def calculategrade(assingmentavg, quizavg, testavg,):
+    overallgrade = (assingmentavg * .30) + (quizavg * .30) + (testavg * .40)
+    print("overall grade: " + str(overallgrade))
+    return overallgrade
 
-def calculategrade(assingmentavrg, quizavrg, testavrg):
-    assingmentavrg = assignmentavg * .30
-    quizavrg = quizavg * .30
-    testavrg = testavg * .40 
-    overall = assingmentavrg + quizavrg + testavrg
-    
+ 
 
-
+# calculate lettergrade
 def lettergrade(overall):
     if overall >= 90:
-        print("A")
+        print("letter grade: A")
+        return "A"
     elif overall >= 80:
-        print("B")
+        print("letter grade: B")
+        return "B"
     elif overall >= 70:
-        print("C")
+        print("letter grade: C")
+        return "C"
     elif overall >= 60:
-        print("D")
+        print("letter grade: D")
+        return "D"
     else:
-        print("F")
-
-def attendance(attendance):
-    if attendance >= 95:
+        print("letter grade: F")
+        return "F"
+    
+# calculate attendance
+def attendancee(attendancepct):
+    if attendancepct >= 95:
         print("excellent attendance")
-    elif attendance >= 90:
+    elif attendancepct >= 90:
         print("good attendance")
-    elif attendance >= 80:
+    elif attendancepct >= 80:
         print("attendance warning")
     else:
         print("poor attendance")
 
+#calculate missing assingment
 def assignmentstatus(missing):
-    if missing <= 0:
+    if missing == 0:
         print("excellent")
-    elif missing >= 1:
+    elif missing <= 2:
         print("good")
-    elif missing >= 3:
+    elif missing <= 4:
         print("warning")
     else:
         print("critical")
 
-def checkeligibillity(overall, attendancee,missing):
+
+#check eligibilty
+def checkeligibillity(overall, attendancepct, missing):
     if overall >= 70:
-        if attendance >= 90:
+        if attendancepct >= 90:
             if missing <= 2:
                 print("academic eligibility: eligible")
                 print("student passes all three requirements")
@@ -70,9 +82,11 @@ def checkeligibillity(overall, attendancee,missing):
         print("academic eligibillity: not eligible")
         print("reason: overall grade is too low ")
 
-def checkhighhonors(overall, attendance,missing):
+
+# checks if high honors
+def checkhighhonors(overall, attendancepct, missing):
     if overall >= 90:
-        if attendance >= 95:
+        if attendancepct >= 95:
             if missing == 0:
                 print("high honors: yes ")
                 print("requirements met")
@@ -86,39 +100,74 @@ def checkhighhonors(overall, attendance,missing):
         print("high honors: no")
         print("reason: grade requirement not met")
 
-
-def checkgoodstanding(overall, attendance):
-    if overall >= 70 and attendance >= 90:
+# checks if good standing
+def checkgoodstanding(overall, attendancepct):
+    if overall >= 70 and attendancepct >= 90:
         print("good standing: yes")
     else:
         print("good standing: no")
 
-def checksupport(overall,attendance):
-    if overall < 70 or attendance < 80:
+#checks if support is needed
+def checksupport(overall, attendancepct):
+    if overall < 70 or attendancepct < 80:
         print("additional support: recomended")
     else:
         print("additional support: not needed")
 
+
+#checks login
 username = input("enter username: ")
 pin = int(input("enter pin:"))
 if username == "student":
-    if pin == "1234":
+    if pin == 1234:
         print("login successfull")
     else:
-        ("login failed: incorrect pin")
+        print("login failed: incorrect pin")
 else:
-    ("login failed: incorrect username")
+    print("login failed: incorrect username")
 
-def gradelevelmssg(grade):
-    if grade == 9 :
+#checks what grade level and sends a message
+def gradelevelmssg(gradelevel):
+    if gradelevel == 9 :
         print("welcome to freshman year")
-    elif grade == 10:
+    elif gradelevel == 10:
         print("keep building your skills ")
-    elif grade == 11:
+    elif gradelevel == 11:
         print("keep pushing")
-    elif grade == 12:
+    elif gradelevel == 12:
         print("finish strong")
     else:
         print("invalid grade level")
+# finds out what strongest catagory is 
+def strongestcatagory(assignmentavrg, quizavrg,testavrg):
+        if assignmentavrg > quizavrg and assignmentavrg > testavrg:
+            print("strongest catagory: assignments")
+        elif quizavrg > assignmentavrg and quizavrg > testavrg:
+            print("strongest catagory: quiz")
+        else:
+            print("strongest catagory: tests")
 
-    
+
+# student summary
+print("==========================")
+print("student summary")
+print("==========================")
+
+print("student: " + name )
+print("grade level: " + str(gradelevel))
+gradelevelmssg(gradelevel)
+
+
+overallgrade = calculategrade(assignmentavg,quizavg,testavg)
+
+lettergraderesult = lettergrade(overallgrade)
+
+attendanceoverall = attendancee(attendance)
+assignmentstatus(missing)
+checkeligibillity(overallgrade, attendance, missing)
+checkhighhonors(overallgrade, attendance, missing)
+checkgoodstanding(overallgrade, attendance)
+checksupport(overallgrade, attendance)
+strongestcatagory(assignmentavg, quizavg, testavg)
+
+print("==========================")
